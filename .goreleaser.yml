@@ -19,14 +19,14 @@ archives:
     amd64: x86_64
 brews:
   - tap:
-      owner: meroxa
+      owner: raulb
       name: homebrew-taps
     folder: Formula
     homepage:  https://meroxa.io
     description: The Meroxa CLI
     license: "Apache 2.0"
     custom_block: |
-      head "https://github.com/meroxa/cli.git"
+      head "https://github.com/raulb/cli.git"
     test: |
       shell_output("#{bin}/meroxa version").match(/{{ replace .Tag "v" "" }}/)
     dependencies:
