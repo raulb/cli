@@ -2,21 +2,21 @@
 # Make sure to check the documentation at http://goreleaser.com
 project_name: meroxa
 builds:
-- env:
-  - CGO_ENABLED=0
-  flags:
-  - -mod=vendor
-  goos:
-  - darwin
-  - linux
-  - windows
+  - env:
+      - CGO_ENABLED=0
+    flags:
+      - -mod=vendor
+    goos:
+      - darwin
+      - linux
+      - windows
 archives:
-- replacements:
-    darwin: Darwin
-    linux: Linux
-    windows: Windows
-    386: i386
-    amd64: x86_64
+  - replacements:
+      darwin: Darwin
+      linux: Linux
+      windows: Windows
+      386: i386
+      amd64: x86_64
 brews:
   - tap:
       owner: raulb
@@ -29,10 +29,13 @@ brews:
       head "https://github.com/raulb/cli.git"
     test: |
       shell_output("#{bin}/meroxa version").match(/{{ replace .Tag "v" "" }}/)
-    dependencies:
-    - name: go
     install: |-
       bin.install "meroxa"
+      prefix.install_metafiles
+      bash_completion.install "etc/completion/meroxa.completion.sh"
+      zsh_completion.install "etc/completion/meroxa.completion.zsh" => "meroxa"
+      fish_completion.install "etc/completion/meroxa.completion.fish"
+      man.install "etc/man/man1"
 checksum:
   name_template: 'checksums.txt'
 snapshot:
@@ -41,7 +44,7 @@ changelog:
   sort: asc
   filters:
     exclude:
-    - '^docs:'
-    - '^test:'
+      - '^docs:'
+      - '^test:'
 release:
   prerelease: true
